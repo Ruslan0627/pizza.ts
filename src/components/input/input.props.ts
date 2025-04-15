@@ -1,6 +1,8 @@
 import { InputHTMLAttributes } from "react";
 
-interface IInput extends InputHTMLAttributes<HTMLInputElement> {
+interface IInputProps extends InputHTMLAttributes<HTMLInputElement> {
+	isValid?:boolean;
+	
 }
 
-export type { IInput }
+export type { IInputProps }
