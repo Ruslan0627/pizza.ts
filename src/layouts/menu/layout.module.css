@@ -58,3 +58,8 @@
 .active {
 	color: var(--primary-color);
 }
+
+.content {
+	padding: 15px 30px;
+	width: 100%;
+}
