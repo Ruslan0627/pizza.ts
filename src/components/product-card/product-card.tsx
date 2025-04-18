@@ -8,7 +8,7 @@ const starIcon = "src/assets/star.png"
 
 function ProductCard({
 	className,
-	title,
+	name,
 	description,
 	img,
 	rating,
@@ -17,7 +17,7 @@ function ProductCard({
 	...props
 }: IProductCardProps) {
 	return (
-		<Link to={"/"} className={cn(styles.link)}>
+		<Link to={`/product/${id}`} className={cn(styles.link)}>
 			<div 
 			{...props}
 			id={id.toString()}
@@ -39,7 +39,7 @@ function ProductCard({
 				</div>
 				<div className={cn(styles.footer)}>
 						<div className={cn(styles.title)}>
-						{title}
+						{name}
 						</div>
 						<div className={cn(styles.description)}>
 							{description}
