@@ -1,0 +1,2 @@
+export const BASE_API_URL:string = "https://devexapi.vercel.app/devex/api"
+export const TOKEN:string = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTFiMGYwYzA5ZTQ0OTAxOWNmZDdhMzMiLCJpc0FkbWluIjpmYWxzZSwibG9naW4iOiJtYW1lZG92cnVzbGFuNjI3IiwiZW1haWwiOiJtYW1lZG92cnVzbGFuNjI3QGdtYWlsLmNvbSIsImlhdCI6MTc0NTAwNTA5OCwiZXhwIjoxNzQ1MDkxNDk4fQ.fHw1vJoTflb_jAAqs3utLLVnnL8jsKcrCq87OMUMMcM"
