@@ -2,7 +2,7 @@ import styles from "./layout.module.css";
 
 import cn from "classnames";
 
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import Button from "../../components/button/button";
 
 const avatarImage = "src/assets/user.png"
@@ -11,7 +11,13 @@ const menuCart = "src/assets/online-shopping.png"
 const logoutImg = "src/assets/power-button.png"
 
 function Layout() {
-	console.log("Layout отрендерился");
+	const navigate = useNavigate()
+
+	function logout () {
+		localStorage.setItem("jwt","")
+		navigate("/auth/login")
+	}
+
 	return (
 		<div className={cn(styles.layout)}>
 			<div className={cn(styles.sidebar)}>
@@ -34,7 +40,10 @@ function Layout() {
 				Корзина
 				</NavLink>
 				</div>
-				<Button size="S" className={cn(styles.exitBtn)}>
+				<Button 
+				size="S" 
+				onClick={logout} 
+				className={cn(styles.exitBtn)}>
 					<img className ={cn(styles.imgBtn)} src={logoutImg} alt="" />
 					<span>Выйти</span>
 					</Button>
