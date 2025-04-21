@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import cn from "classnames"
 import Button from "../../components/button/button";
 import Header from "../../components/header/header";
@@ -8,6 +8,9 @@ import { FormEvent, useEffect, useRef, useState } from "react";
 import axios, { AxiosError } from "axios";
 import { BASE_API_URL } from "../../helpers/api";
 import { ISuccesLogin } from "./types/login.type";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../store/store";
+import { userAсtions } from "../../store/user.slice";
 
 export type LoginForm = {
 	email: {
@@ -20,6 +23,9 @@ export type LoginForm = {
 
 function Login() {
 	const [error, setError] = useState()
+	const dispatch = useDispatch<AppDispatch>()
+	const { initJwt } = userAсtions
+	const navigate = useNavigate()
 	const timer = useRef<ReturnType<typeof setTimeout>>(null)
 	const submit = ((e:FormEvent) => {
 		e.preventDefault()
@@ -30,7 +36,9 @@ function Login() {
 	const sendLogin = async (email:string, password:string) => {
 		try {
 		const { data } = await axios.post<ISuccesLogin>(`${BASE_API_URL}/users/login`, { email, password })
-		console.log(`toke ${data.token} ${data}`);
+		localStorage.setItem("jwt",JSON.stringify(data.token))
+		dispatch(initJwt(data.token))
+		navigate("/")
 		}
 		catch (e) {
 			if (e instanceof AxiosError ) {

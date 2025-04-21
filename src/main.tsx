@@ -10,13 +10,20 @@ import AuthLayout from "./layouts/auth-layout/auth-layout";
 import Login from "./pages/login/login";
 import Register from "./pages/register/register";
 import { IProduct } from "./interfaces/product.interface";
+import PrivateRoute from "./helpers/private-route";
+import { Provider } from "react-redux";
+import { store } from "./store/store";
 
 const Menu = lazy(() => import("./pages/menu/menu"))
 const Cart = lazy(() => import("./pages/cart/cart"))
 const Product = lazy(() => import("./pages/product/product"))
 const routes = createBrowserRouter([
 	{
-		element: <Layout />,
+		element:
+		 (<PrivateRoute>
+			<Layout/>
+			</PrivateRoute>
+		 ),
 		path: "/",
 		children: [
 			{
@@ -68,8 +75,10 @@ const routes = createBrowserRouter([
 ]);
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
+		<Provider store={store}>
   <Suspense fallback = { <h1>Загрузка старницы...</h1>}>
     <RouterProvider router={routes}/>
   </Suspense>
+		</Provider>
   </StrictMode>,
 )
