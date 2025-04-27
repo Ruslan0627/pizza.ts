@@ -1,8 +1,10 @@
+import { RootStore } from "../store/store";
 import { ReactNode } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
 
 function PrivateRoute({ children }: {children:ReactNode}) {
-	const jwt = localStorage.getItem("jwt")
+	const jwt = useSelector( ( state:RootStore) => state.user.jwt) 
 	if (!jwt) {
 		return <Navigate to={"/auth/login"} replace/>
 	}
