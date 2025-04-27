@@ -4,13 +4,10 @@ import Button from "../../components/button/button";
 import Header from "../../components/header/header";
 import Input from "../../components/input/input";
 import styles from "./login.module.css"
-import { FormEvent, useEffect, useRef, useState } from "react";
-import axios, { AxiosError } from "axios";
-import { BASE_API_URL } from "../../helpers/api";
-import { ISuccesLogin } from "./types/login.type";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../store/store";
-import { userAсtions } from "../../store/user.slice";
+import { FormEvent, useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootStore } from "../../store/store";
+import { login } from "../../store/user.slice";
 
 export type LoginForm = {
 	email: {
@@ -22,11 +19,10 @@ export type LoginForm = {
 }
 
 function Login() {
-	const [error, setError] = useState()
 	const dispatch = useDispatch<AppDispatch>()
-	const { initJwt } = userAсtions
 	const navigate = useNavigate()
 	const timer = useRef<ReturnType<typeof setTimeout>>(null)
+	const jwt = useSelector((state:RootStore) => state.user.jwt)
 	const submit = ((e:FormEvent) => {
 		e.preventDefault()
 		const target = e.target as typeof e.target & LoginForm
@@ -34,28 +30,18 @@ function Login() {
 		sendLogin(email?.value, password?.value)
 	})
 	const sendLogin = async (email:string, password:string) => {
-		try {
-		const { data } = await axios.post<ISuccesLogin>(`${BASE_API_URL}/users/login`, { email, password })
-		localStorage.setItem("jwt",JSON.stringify(data.token))
-		dispatch(initJwt(data.token))
-		navigate("/")
-		}
-		catch (e) {
-			if (e instanceof AxiosError ) {
-				setError(e.response?.data.message)
-				timer.current = setTimeout(() => {
-					setError("")
-				}, 5000)
-			}
-		}
+		dispatch(login({email,password}))
 	}
 
 useEffect(() => {
-	return clearTimeout(timer.current)
-},[])
+	if (jwt) navigate("/")
+	return () => {
+		clearTimeout(timer.current)
+	}
+},[jwt,navigate])
 		return (
 				<div className={cn(styles.login)}>
-					<Header>{error? error :"Вход"}</Header>
+					<Header>"Вход"</Header>
 					<form onSubmit={submit} className={cn(styles.form)}>
 						<div className={cn(styles.field)}>
 							<label htmlFor="email">

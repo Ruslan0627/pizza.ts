@@ -4,6 +4,9 @@ import cn from "classnames";
 
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import Button from "../../components/button/button";
+import { useDispatch } from "react-redux";
+import { userAсtions } from "../../store/user.slice";
+import { AppDispatch } from "../../store/store";
 
 const avatarImage = "src/assets/user.png"
 const menuImg = "src/assets/menu.png"
@@ -12,9 +15,10 @@ const logoutImg = "src/assets/power-button.png"
 
 function Layout() {
 	const navigate = useNavigate()
+	const dispatch = useDispatch<AppDispatch>() 
 
 	function logout () {
-		localStorage.setItem("jwt","")
+		dispatch(userAсtions.logout())
 		navigate("/auth/login")
 	}
 
