@@ -7,7 +7,7 @@ import styles from "./login.module.css"
 import { FormEvent, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootStore } from "../../store/store";
-import { login } from "../../store/user.slice";
+import { login, userAсtions } from "../../store/user.slice";
 
 export type LoginForm = {
 	email: {
@@ -22,9 +22,11 @@ function Login() {
 	const dispatch = useDispatch<AppDispatch>()
 	const navigate = useNavigate()
 	const timer = useRef<ReturnType<typeof setTimeout>>(null)
-	const jwt = useSelector((state:RootStore) => state.user.jwt)
+	const userState = useSelector((state:RootStore) => state.user)
+	const { jwt, errorMsg } = userState
 	const submit = ((e:FormEvent) => {
 		e.preventDefault()
+		dispatch(userAсtions.clearErrorMsg())
 		const target = e.target as typeof e.target & LoginForm
 		const {email, password} = target
 		sendLogin(email?.value, password?.value)
@@ -38,10 +40,10 @@ useEffect(() => {
 	return () => {
 		clearTimeout(timer.current)
 	}
-},[jwt,navigate])
+},[jwt,navigate,dispatch])
 		return (
 				<div className={cn(styles.login)}>
-					<Header>"Вход"</Header>
+					<Header>{ errorMsg ? errorMsg : "Вход"}</Header>
 					<form onSubmit={submit} className={cn(styles.form)}>
 						<div className={cn(styles.field)}>
 							<label htmlFor="email">
