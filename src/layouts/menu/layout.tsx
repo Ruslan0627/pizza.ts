@@ -4,9 +4,10 @@ import cn from "classnames";
 
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import Button from "../../components/button/button";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { userAсtions } from "../../store/user.slice";
-import { AppDispatch } from "../../store/store";
+import { AppDispatch, RootStore } from "../../store/store";
+import { useEffect } from "react";
 
 const avatarImage = "src/assets/user.png"
 const menuImg = "src/assets/menu.png"
@@ -15,20 +16,31 @@ const logoutImg = "src/assets/power-button.png"
 
 function Layout() {
 	const navigate = useNavigate()
-	const dispatch = useDispatch<AppDispatch>() 
-
+	const dispatch = useDispatch<AppDispatch>()
+	const useProfile = useSelector((state:RootStore) => state.user.profile)
+	const { name, email } = useProfile
 	function logout () {
 		dispatch(userAсtions.logout())
 		navigate("/auth/login")
 	}
+	useEffect(() => {
+		dispatch(userAсtions.getProfileState())
+		return () => { 
+			dispatch(userAсtions.clearProfile())
+		}
+	},[dispatch])
 
 	return (
 		<div className={cn(styles.layout)}>
 			<div className={cn(styles.sidebar)}>
 				<div className={cn(styles.user)}>
 					<img src={avatarImage} className={cn(styles.avatar)} alt="user avatar" />
-					<div className={cn(styles.name)}>Имя пользвателя</div>
-					<div className={cn(styles.email)}>example@gmail.com </div>
+					<div className={cn(styles.name)}>
+						{name}
+					</div>
+					<div className={cn(styles.email)}>
+					{email}
+					</div>
 				</div>
 				<div className={cn(styles.menu)}>
 				<NavLink to="/" className={({isActive})=> cn(styles.link, {
