@@ -7,7 +7,8 @@ import Button from "../../components/button/button";
 import { useDispatch, useSelector } from "react-redux";
 import { userAсtions } from "../../store/user.slice";
 import { AppDispatch, RootStore } from "../../store/store";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
+import { ICartItem } from "../../store/cart.slice";
 
 const avatarImage = "src/assets/user.png"
 const menuImg = "src/assets/menu.png"
@@ -18,6 +19,7 @@ function Layout() {
 	const navigate = useNavigate()
 	const dispatch = useDispatch<AppDispatch>()
 	const useProfile = useSelector((state:RootStore) => state.user.profile)
+	const cartItems = useSelector( (s:RootStore) => s.cart.items)
 	const { name, email } = useProfile
 	function logout () {
 		dispatch(userAсtions.logout())
@@ -29,6 +31,12 @@ function Layout() {
 			dispatch(userAсtions.clearProfile())
 		}
 	},[dispatch])
+
+	const getCartItemsCount = useCallback(() => {
+		return cartItems.reduce( (acc, rec) => {
+			return acc + rec.count
+	 },0 )
+	},[cartItems]) 
 
 	return (
 		<div className={cn(styles.layout)}>
@@ -53,7 +61,7 @@ function Layout() {
 					[styles.active]:isActive
 				})} to="/cart">
 				<img src={menuCart} alt="" />
-				Корзина
+				Корзина {getCartItemsCount()}
 				</NavLink>
 				</div>
 				<Button 
