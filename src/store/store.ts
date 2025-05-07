@@ -12,9 +12,10 @@ export const store = configureStore({
 
 store.subscribe( () => {
 	const state: RootStore = store.getState()
-	const user = state.user
-	const jwt = user.jwt
-	if (jwt) saveState({jwt},"jwt")
+	const jwt = state.user.jwt
+	const cartItems = state.cart.items
+	 saveState({jwt},"jwt")
+	saveState({items:cartItems},"cart")
 } )
 export type RootStore = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch
