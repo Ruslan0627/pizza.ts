@@ -1,0 +1,22 @@
+.wrapper {
+	display: flex;
+	gap: 20px;
+	align-items: center;
+}
+
+.img {
+	min-height: 100px;
+	min-width: 100px;
+}
+
+.desc {
+	display: flex;
+	flex-direction: column;
+	align-items:start;
+}
+
+.action {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+}

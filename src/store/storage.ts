@@ -1,6 +1,6 @@
 export function loadState<T> (key:string):T | undefined {
 	try {
-	const	jsonState = localStorage.getItem(key)
+	const	jsonState = sessionStorage.getItem(key)
 	if(!jsonState) return
 	return JSON.parse(jsonState)
 	}
@@ -13,6 +13,6 @@ export function loadState<T> (key:string):T | undefined {
 
 export function saveState<T> (state:T,key:string):undefined {
 	if ( state && key) {
-		localStorage.setItem(key,JSON.stringify(state))
+		sessionStorage.setItem(key,JSON.stringify(state))
 	}
 }

@@ -8,8 +8,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { userAсtions } from "../../store/user.slice";
 import { AppDispatch, RootStore } from "../../store/store";
 import { useCallback, useEffect } from "react";
-import { ICartItem } from "../../store/cart.slice";
-
 const avatarImage = "src/assets/user.png"
 const menuImg = "src/assets/menu.png"
 const menuCart = "src/assets/online-shopping.png"
